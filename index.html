@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Solicitud de alquiler</title>
+<style>
+body { font-family: Arial; background:#f5f6f8; padding:20px; }
+.container { max-width:720px; background:#fff; padding:24px; margin:auto; border-radius:8px; }
+label { display:block; margin-top:14px; font-weight:bold; }
+input, select, textarea { width:100%; padding:8px; margin-top:6px; }
+button { margin-top:20px; padding:12px; width:100%; background:#2d6cdf; color:#fff; border:none; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Solicitud de alquiler</h2>
+<p>Precio del alquiler: <b>830 € / mes</b></p>
+
+<form id="rentalForm">
+
+<label>Nombre y apellidos</label>
+<input name="nombre" required>
+
+<label>Teléfono</label>
+<input name="telefono" required>
+
+<label>Email</label>
+<input type="email" name="email" required>
+
+<label>Número de ocupantes</label>
+<select name="ocupantes" id="ocupantes">
+  <option value="1">1</option>
+  <option value="2">2</option>
+</select>
+
+<label>Edad inquilino 1</label>
+<input type="number" name="edad1" min="18" required>
+
+<div id="edad2" style="display:none;">
+  <label>Edad inquilino 2</label>
+  <input type="number" name="edad2" min="18">
+</div>
+
+<label>Ingresos inquilino 1 (€)</label>
+<input type="number" name="ingresos1" id="ingresos1">
+
+<div id="ing2" style="display:none;">
+  <label>Ingresos inquilino 2 (€)</label>
+  <input type="number" name="ingresos2" id="ingresos2">
+</div>
+
+<label>¿Mascotas?</label>
+<select name="mascotas">
+  <option>No</option>
+  <option>Sí</option>
+</select>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Solicitud de alquiler</title>
+<style>
+body { font-family: Arial; background:#f5f6f8; padding:20px; }
+.container { max-width:720px; background:#fff; padding:24px; margin:auto; border-radius:8px; }
+label { display:block; margin-top:14px; font-weight:bold; }
+input, select, textarea { width:100%; padding:8px; margin-top:6px; }
+button { margin-top:20px; padding:12px; width:100%; background:#2d6cdf; color:#fff; border:none; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Solicitud de alquiler</h2>
+
+<form id="rentalForm">
+
+<label>Nombre y apellidos</label>
+<input name="nombre" required>
+
+<label>Teléfono</label>
+<input name="telefono" required>
+
+<label>Email</label>
+<input type="email" name="email" required>
+
+<label>Número de ocupantes</label>
+<select name="ocupantes" id="ocupantes">
+  <option value="1">1</option>
+  <option value="2">2</option>
+</select>
+
+<label>Edad inquilino 1</label>
+<input type="number" name="edad1" min="18" required>
+
+<div id="edad2" style="display:none;">
+  <label>Edad inquilino 2</label>
+  <input type="number" name="edad2" min="18">
+</div>
+
+<label>Ingresos inquilino 1 (€)</label>
+<input type="number" name="ingresos1" id="ingresos1">
+
+<div id="ing2" style="display:none;">
+  <label>Ingresos inquilino 2 (€)</label>
+  <input type="number" name="ingresos2" id="ingresos2">
+</div>
+
+<label>¿Mascotas?</label>
+<select name="mascotas">
+  <option>No</option>
+  <option>Sí</option>
+</select>
+
+<label>¿Fuma?</label>
+<select name="fuma">
+  <option>No</option>
+  <option>Sí</option>
+</select>
+
+<label>Duración prevista</label>
+<select name="estancia">
+  <option>Más de 2 años</option>
+  <option>1–2 años</option>
+  <option>Menos de 1 año</option>
+</select>
+
+<label>Fecha de entrada</label>
+<input type="date" name="entrada">
+
+<label>Motivo del cambio</label>
+<textarea name="motivo"></textarea>
+
+<input type="hidden" name="ingresos_totales" id="ingresos_totales">
+
+<button type="submit">Enviar solicitud</button>
+</form>
+</div>
+
+<script>
+const ocupantes = document.getElementById("ocupantes");
+const edad2 = document.getElementById("edad2");
+const ing2 = document.getElementById("ing2");
+
+ocupantes.addEventListener("change", () => {
+  const dos = ocupantes.value === "2";
+  edad2.style.display = dos ? "block" : "none";
+  ing2.style.display = dos ? "block" : "none";
+});
+
+document.getElementById("rentalForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const i1 = Number(document.getElementById("ingresos1").value || 0);
+  const i2 = Number(document.getElementById("ingresos2")?.value || 0);
+  document.getElementById("ingresos_totales").value = i1 + i2;
+
+  const data = Object.fromEntries(new FormData(this).entries());
+
+  fetch("https://script.google.com/macros/s/AKfycbyFE4BegZzEKo_Sh5CwBdD9rqD6dFNV8m7grCRyyjfhd6qV2vJky3l_pc3bSMAfwEmoow/exec", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    alert("Solicitud enviada correctamente");
+    this.reset();
+  })
+  .catch(() => {
+    alert("Error al enviar");
+  });
+});
+</script>
+</body>
+</html>
